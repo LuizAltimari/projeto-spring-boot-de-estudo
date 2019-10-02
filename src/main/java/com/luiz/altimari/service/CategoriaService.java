@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.luiz.altimari.domain.Categoria;
 import com.luiz.altimari.repository.CategoriaRepository;
+import com.luiz.altimari.service.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -15,8 +16,10 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repo;
 	
-	public Optional<Categoria> buscar(Integer id) {
-		return this.repo.findById(id);
+	public Categoria buscar(Integer id) {
+		Optional<Categoria> categoria = this.repo.findById(id); 
+		return categoria.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 	
 	public List<Categoria> listar(){

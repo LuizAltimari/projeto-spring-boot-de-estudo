@@ -9,25 +9,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.luiz.altimari.domain.Categoria;
-import com.luiz.altimari.service.CategoriaService;
-import com.luiz.altimari.service.exceptions.ObjectNotFoundException;
+import com.luiz.altimari.domain.Produto;
+import com.luiz.altimari.service.ProdutoService;
 
 @RestController
-@RequestMapping(value = "/categorias")
-public class CategoriaController {
+@RequestMapping(value = "/produtos")
+public class ProdutoController {
 
 	@Autowired
-	private CategoriaService service;
-	
+	private ProdutoService service;
 	
 	@GetMapping(value = "/listar")
-	public List<Categoria> listar(){				
-		return service.listar();
+	public List<Produto> listar(){
+		return this.service.listar();
 	}
 	
 	@GetMapping(value = "/buscar/{id}")
-	public ResponseEntity<?> buscar(@PathVariable("id") Integer id){		
-			return ResponseEntity.ok().body(service.buscar(id));			
+	public ResponseEntity<?> buscar(@PathVariable("id") Integer id){
+		return ResponseEntity.ok().body(service.buscar(id));
 	}
 }
