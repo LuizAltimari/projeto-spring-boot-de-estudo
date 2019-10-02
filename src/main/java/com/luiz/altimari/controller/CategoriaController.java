@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.luiz.altimari.domain.Categoria;
 import com.luiz.altimari.service.CategoriaService;
-import com.luiz.altimari.service.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value = "/categorias")
