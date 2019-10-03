@@ -9,23 +9,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.luiz.altimari.domain.Produto;
-import com.luiz.altimari.service.ProdutoService;
+import com.luiz.altimari.domain.Cliente;
+import com.luiz.altimari.service.ClienteService;
 
 @RestController
-@RequestMapping(value = "/produtos")
-public class ProdutoController {
+@RequestMapping(value = "/clientes")
+public class ClienteController {
 
 	@Autowired
-	private ProdutoService service;
+	private ClienteService service;
+	
 	
 	@GetMapping(value = "/listar")
-	public List<Produto> listar(){
-		return this.service.listar();
+	public List<Cliente> listar(){				
+		return service.listar();
 	}
 	
 	@GetMapping(value = "/buscar/{id}")
-	public ResponseEntity<?> buscar(@PathVariable("id") Integer id){
-		return ResponseEntity.ok().body(service.buscar(id));
+	public ResponseEntity<?> buscar(@PathVariable("id") Integer id){		
+			return ResponseEntity.ok().body(service.buscar(id));			
 	}
 }
