@@ -1,6 +1,7 @@
 package com.luiz.altimari.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ public class Estado implements Serializable {
 	@Column(length = 2)
 	private String uf;
 	@OneToMany(mappedBy = "estado")
-	private List<Cidade> cidades;
+	private List<Cidade> cidades = new ArrayList<>();
 	
 	public Estado(Integer id, String nome, String uf) {
 		super();
