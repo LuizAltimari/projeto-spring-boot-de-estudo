@@ -1,5 +1,6 @@
 package com.luiz.altimari;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,18 @@ import com.luiz.altimari.domain.Cidade;
 import com.luiz.altimari.domain.Cliente;
 import com.luiz.altimari.domain.Endereco;
 import com.luiz.altimari.domain.Estado;
+import com.luiz.altimari.domain.Pagamento;
+import com.luiz.altimari.domain.PagamentoComBoleto;
+import com.luiz.altimari.domain.PagamentoComCartao;
+import com.luiz.altimari.domain.Pedido;
+import com.luiz.altimari.domain.enums.EstadoPagamento;
 import com.luiz.altimari.domain.enums.TipoCliente;
 import com.luiz.altimari.repository.CidadeRepository;
 import com.luiz.altimari.repository.ClienteRepository;
 import com.luiz.altimari.repository.EnderecoRepository;
 import com.luiz.altimari.repository.EstadoRepository;
+import com.luiz.altimari.repository.PagamentoRepository;
+import com.luiz.altimari.repository.PedidoRepository;
 
 @SpringBootApplication
 
@@ -29,6 +37,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private ClienteRepository ClienteRepo;
 	@Autowired
 	private EnderecoRepository EnderecoRepo;
+	@Autowired
+	private PedidoRepository PedidoRepo;
+	@Autowired
+	private PagamentoRepository PagamentoRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -62,5 +74,22 @@ public class CursomcApplication implements CommandLineRunner {
 		cli.getEnderecos().addAll(Arrays.asList(ed1, ed2));
 		this.ClienteRepo.save(cli);
 		this.EnderecoRepo.saveAll(Arrays.asList(ed1, ed2));
+		
+		SimpleDateFormat sdf = new  SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("04/10/2019 15:00"), cli, ed1);
+		Pedido ped2 = new Pedido(null, sdf.parse("05/10/2019 15:00"), cli, ed2);
+		
+		Pagamento pag1 = new PagamentoComBoleto(null, EstadoPagamento.QUITADO, ped1,  sdf.parse("31/10/2019 15:00"), sdf.parse("05/10/2019 15:00"));
+		ped1.setPagamento(pag1);
+		
+		Pagamento pag2 = new PagamentoComCartao(null, EstadoPagamento.PENDENTE, ped2, 5);
+		ped2.setPagamento(pag2);
+				
+		cli.setPedidos(Arrays.asList(ped1, ped2));
+		this.PedidoRepo.saveAll(Arrays.asList(ped1, ped2));
+		this.PagamentoRepo.saveAll(Arrays.asList(pag1, pag2));
+		
+		
 	}
 }
